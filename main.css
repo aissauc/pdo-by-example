@@ -1,0 +1,96 @@
+.wrapper .set_info {
+
+    float: left;
+    width: 40%;
+    height: 80vh;
+    background-color: #eee;
+    padding: 20px;
+}
+
+.wrapper .set_info h3 {
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+    font-size: 22px;
+    text-decoration-line: underline;
+}
+
+.wrapper .set_info .message {
+    background-color: green;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+}
+
+.wrapper .set_info .message.error {
+    background-color: red;
+}
+
+.wrapper .set_info label {
+    display: block;
+    margin: 10px 0;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+
+}
+
+.wrapper .set_info input {
+    display: block;
+    width: 60%;
+    margin-bottom: 25px;
+    padding: 10px 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.wrapper .get_info {
+    padding: 20px;
+    float: left;
+    margin-left: 10px;
+}
+
+.wrapper .get_info table {
+    width: 50vw;
+    border-collapse: collapse;
+
+}
+
+.wrapper .get_info table caption {
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    font-size: 22px;
+    padding: 20px 0 40px;
+    text-decoration-line: underline;
+}
+
+.wrapper .get_info table thead th {
+    padding: 10px 5px;
+    text-align: left;
+    font-family: arial;
+    font-weight: bold;
+    border-bottom: 1px solid #777;
+    border-right: 1px solid #777;
+}
+
+.wrapper .get_info table tbody td {
+    font-family: Arial, Helvetica, sans-serif;
+    padding: 10px 5px;
+    border-bottom: 1px solid #777;
+    border-right: 1px solid #777;
+}
+
+.wrapper .get_info table tbody tr:nth-child(even) {
+    background-color: #ddd;
+}
+
+.wrapper input[type='submit'] {
+    background-color: green;
+    color: white;
+    cursor: pointer;
+}
+
+.wrapper input[type='submit']:hover {
+    background-color: darkgreen;
+}
