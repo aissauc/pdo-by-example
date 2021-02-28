@@ -1,22 +1,8 @@
 <?php
+session_start();
 
 require('db.php');
 require('employee.php');
-
-    if (isset($_GET['action']) && $_GET['action'] == 'edit' && isset($_GET['id'])) {
-        $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
-
-        if ($id > 0) {
-            $sql = 'SELECT * FROM employee WHERE id = :id';
-            $stmt = $connection->prepare($sql);
-            $foundUser = $stmt->execute(array(':id' => $id));
-            if ($foundUser === true) {
-                $user = $stmt->fetchAll(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, 'Employee', array('name', 'age', 'address', 'salary', 'tax'));
-                $user = array_shift($user);
-            }
-        }
-    }
-
 
     if (isset($_POST['submit'])) {
         $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING);
@@ -35,7 +21,8 @@ require('employee.php');
         );
         //Inserting or updating employees to database
 
-        if (isset($user)) {
+        if (isset($_GET['action']) && $_GET['action'] == 'edit' && isset($_GET['id'])) {
+            $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
             $sql = 'UPDATE employee SET name = :name, age = :age, address = :address, salary = :salary, tax = :tax WHERE id = :id';
             $bindParams['id'] = $id;
         } else {
@@ -44,16 +31,34 @@ require('employee.php');
 
         $stmt = $connection->prepare($sql);
         if ($stmt->execute($bindParams) === true) {
-            $message = 'Employee ' . $name . ' has saved succesfuly';
+            $_SESSION['message'] = 'Employee ' . $name . ' has saved succesfuly';
+            header('location: http://mydomain.test');
+            session_write_close();
+            exit();
             
         } else {
             $error = true;
-            $message = 'Error saving employee';
+            $_SESSION['message'] = 'Error saving employee';
 
         }
 
 
     }
+
+    if (isset($_GET['action']) && $_GET['action'] == 'edit' && isset($_GET['id'])) {
+        $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
+
+        if ($id > 0) {
+            $sql = 'SELECT * FROM employee WHERE id = :id';
+            $stmt = $connection->prepare($sql);
+            $foundUser = $stmt->execute(array(':id' => $id));
+            if ($foundUser === true) {
+                $user = $stmt->fetchAll(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, 'Employee', array('name', 'age', 'address', 'salary', 'tax'));
+                $user = array_shift($user);
+            }
+        }
+    }
+
 
     // Reading from database
     $sql = 'SELECT * FROM employee';
@@ -83,9 +88,11 @@ require('employee.php');
             <form action="" method="POST" autocomplete="off">
                 
                 <?php
-                    if (isset($message)) { ?>
-                        <p class='message <?= isset($error) ? $error : ''?>'><?= $message ?></p>
-                <?php  } ?>                 
+                    if (isset($_SESSION['message'])) { ?>
+                        <p class='message <?= isset($error) ? $error : ''?>'><?= $_SESSION['message']; ?></p>
+                <?php  } 
+                    unset($_SESSION['message']);
+                ?>                 
 
                 <label for="name">Employee name: </label>
                 <input type="text" name="name" id="name" placeholder="Write the employee name here" value="<?= isset($user) ? $user->name : '' ?>" required>
