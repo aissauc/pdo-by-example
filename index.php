@@ -19,8 +19,9 @@ require('employee.php');
             ':salary'   => $salary,
             ':tax'      => $tax
         );
-        //Inserting or updating employees to database
 
+
+        //Inserting or updating employees to database
         if (isset($_GET['action']) && $_GET['action'] == 'edit' && isset($_GET['id'])) {
             $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
             $sql = 'UPDATE employee SET name = :name, age = :age, address = :address, salary = :salary, tax = :tax WHERE id = :id';
@@ -45,6 +46,7 @@ require('employee.php');
 
     }
 
+    // Update emplyee info
     if (isset($_GET['action']) && $_GET['action'] == 'edit' && isset($_GET['id'])) {
         $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
 
@@ -55,6 +57,22 @@ require('employee.php');
             if ($foundUser === true) {
                 $user = $stmt->fetchAll(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, 'Employee', array('name', 'age', 'address', 'salary', 'tax'));
                 $user = array_shift($user);
+            }
+        }
+    }
+    // Delete employee info
+    if (isset($_GET['action']) && $_GET['action'] == 'delete' && isset($_GET['id'])) {
+        $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
+
+        if ($id > 0) {
+            $sql = 'DELETE FROM employee WHERE id = :id';
+            $stmt = $connection->prepare($sql);
+            $foundUser = $stmt->execute(array(':id' => $id));
+            if ($foundUser === true) {
+                $_SESSION['message'] = 'Employee has deleted succesfuly';
+                header('location: http://mydomain.test');
+                session_write_close();
+                exit();
             }
         }
     }
@@ -139,14 +157,14 @@ require('employee.php');
                                     <td><?= $employee->tax ?></td>
                                     <td>
                                         <a href="/?action=edit&id=<?= $employee->id; ?>"><i class="fa fa-edit fa-lg"></i></a>
-                                        <a href="/?action=delete&id=<?= $employee->id; ?>"><i class="fa fa-trash fa-lg"></i></a>
+                                        <a href="/?action=delete&id=<?= $employee->id; ?>" onclick="if(!confirm('Do you want to delete this employee ?')) return false;"><i class="fa fa-trash fa-lg"></i></a>
                                     </td>
                                 </tr>
                             <?php
                         }
                     } else {
                         ?>
-                        <td colspan="5">There's no employee to list</td>
+                        <td colspan="6">There's no employee to list</td>
                         <?php
                     }
                 ?>
