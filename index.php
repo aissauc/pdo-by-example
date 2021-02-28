@@ -4,6 +4,8 @@ session_start();
 require('db.php');
 require('employee.php');
 
+    // check if the user click to submit button to send form 
+    // then sanitize the inputs 
     if (isset($_POST['submit'])) {
         $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING);
         $age = filter_input(INPUT_POST, 'age', FILTER_SANITIZE_NUMBER_INT);
@@ -21,11 +23,14 @@ require('employee.php');
         );
 
 
-        //Inserting or updating employees to database
+        //check if there's action edit in the url to update the emploee info 
+        // Updating
         if (isset($_GET['action']) && $_GET['action'] == 'edit' && isset($_GET['id'])) {
             $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
             $sql = 'UPDATE employee SET name = :name, age = :age, address = :address, salary = :salary, tax = :tax WHERE id = :id';
             $bindParams['id'] = $id;
+            // if there's no action edit in the url will be insert employee info to database 
+            //inserting
         } else {
             $sql = 'INSERT INTO employee SET name = :name, age = :age, address = :address, salary = :salary, tax = :tax';
         }
