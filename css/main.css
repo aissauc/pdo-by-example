@@ -94,3 +94,19 @@
 .wrapper input[type='submit']:hover {
     background-color: darkgreen;
 }
+
+/* customize controller icon */
+
+.wrapper .get_info table tbody tr td a {
+    text-decoration: none;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.wrapper .get_info table tbody tr td .fa-edit {
+    color: #2200e6;
+}
+
+.wrapper .get_info table tbody tr td .fa-trash {
+    color: #df0000;
+}
