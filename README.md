@@ -1,4 +1,4 @@
-![Preview img](https://ibb.co/Xpw8hQQ)
+![preview](https://user-images.githubusercontent.com/23043953/109567000-f666da80-7ae4-11eb-8277-08187eeb128d.png)
 
 This is a mini project to practice PDO with OOP in php
 how to insert a employee info to database then update the employee info and delete it from database
